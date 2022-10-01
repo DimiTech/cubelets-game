@@ -30,18 +30,18 @@ const player = {
   speed  : 0.1,
 }
 
-player.update = function() {
+player.update = function(frameElapsedTime) {
   if (this.moving.up) {
-    this.y -= Math.round(this.speed * elapsed)
+    this.y -= Math.round(this.speed * frameElapsedTime)
   }
   if (this.moving.right) {
-    this.x += Math.round(this.speed * elapsed)
+    this.x += Math.round(this.speed * frameElapsedTime)
   }
   if (this.moving.down) {
-    this.y += Math.round(this.speed * elapsed)
+    this.y += Math.round(this.speed * frameElapsedTime)
   }
   if (this.moving.left) {
-    this.x -= Math.round(this.speed * elapsed)
+    this.x -= Math.round(this.speed * frameElapsedTime)
   }
 }
 
@@ -60,8 +60,8 @@ player.render = function() {
 // Game Loop
 // ----------------------------------------------------------------------------
 
-function update(elapsed) {
-  player.update(elapsed)
+function update(frameElapsedTime) {
+  player.update(frameElapsedTime)
 }
 
 function render() {
@@ -70,22 +70,22 @@ function render() {
   drawFPS(context)
 }
 
-function gameLoopStep(elapsed) {
-  update(elapsed)
+function gameLoopStep(frameElapsedTime) {
+  update(frameElapsedTime)
   render()
-  calculateFrameRate()
 }
 
 let previousTimestamp
-let elapsed
+let frameElapsedTime
 
 function gameLoop(timestamp) {
   if (previousTimestamp === undefined) {
     previousTimestamp = timestamp
   }
-  elapsed = timestamp - previousTimestamp
+  frameElapsedTime = timestamp - previousTimestamp
 
-  gameLoopStep(elapsed)
+  gameLoopStep(frameElapsedTime) // TODO: Don't pass down as argument, use a global variable instead ?
+  calculateFrameRate(previousTimestamp, frameElapsedTime)
 
   previousTimestamp = timestamp
   window.requestAnimationFrame(gameLoop)
