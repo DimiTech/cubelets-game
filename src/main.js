@@ -1,3 +1,7 @@
+// ----------------------------------------------------------------------------
+// Canvas
+// ----------------------------------------------------------------------------
+
 const CONFIG = {
   CANVAS_WIDTH  : 480,
   CANVAS_HEIGHT : 320,
@@ -11,6 +15,16 @@ canvas.style.width  = CONFIG.SCALE !== 1 ? (CONFIG.SCALE * CONFIG.CANVAS_WIDTH )
 canvas.style.height = CONFIG.SCALE !== 1 ? (CONFIG.SCALE * CONFIG.CANVAS_HEIGHT) + 'px' : 'auto'
 
 const context = canvas.getContext('2d')
+
+// ----------------------------------------------------------------------------
+// Time
+// ----------------------------------------------------------------------------
+
+const TIME = { // Milliseconds
+  previousTimestamp: undefined,
+  frameElapsedTime: undefined,
+}
+
 
 // ----------------------------------------------------------------------------
 // Player
@@ -30,18 +44,18 @@ const player = {
   speed  : 0.1,
 }
 
-player.update = function(frameElapsedTime) {
+player.update = function() {
   if (this.moving.up) {
-    this.y -= Math.round(this.speed * frameElapsedTime)
+    this.y -= Math.round(this.speed * TIME.frameElapsedTime)
   }
   if (this.moving.right) {
-    this.x += Math.round(this.speed * frameElapsedTime)
+    this.x += Math.round(this.speed * TIME.frameElapsedTime)
   }
   if (this.moving.down) {
-    this.y += Math.round(this.speed * frameElapsedTime)
+    this.y += Math.round(this.speed * TIME.frameElapsedTime)
   }
   if (this.moving.left) {
-    this.x -= Math.round(this.speed * frameElapsedTime)
+    this.x -= Math.round(this.speed * TIME.frameElapsedTime)
   }
 }
 
@@ -60,8 +74,8 @@ player.render = function() {
 // Game Loop
 // ----------------------------------------------------------------------------
 
-function update(frameElapsedTime) {
-  player.update(frameElapsedTime)
+function update() {
+  player.update()
 }
 
 function render() {
@@ -70,24 +84,21 @@ function render() {
   drawFPS(context)
 }
 
-function gameLoopStep(frameElapsedTime) {
-  update(frameElapsedTime)
+function gameLoopStep() {
+  update()
   render()
 }
 
-let previousTimestamp
-let frameElapsedTime
-
 function gameLoop(timestamp) {
-  if (previousTimestamp === undefined) {
-    previousTimestamp = timestamp
+  if (TIME.previousTimestamp === undefined) {
+    TIME.previousTimestamp = timestamp
   }
-  frameElapsedTime = timestamp - previousTimestamp
+  TIME.frameElapsedTime = timestamp - TIME.previousTimestamp
 
-  gameLoopStep(frameElapsedTime) // TODO: Don't pass down as argument, use a global variable instead ?
-  calculateFrameRate(previousTimestamp, frameElapsedTime)
+  gameLoopStep(TIME.frameElapsedTime)
+  calculateFrameRate(TIME.previousTimestamp, TIME.frameElapsedTime)
 
-  previousTimestamp = timestamp
+  TIME.previousTimestamp = timestamp
   window.requestAnimationFrame(gameLoop)
 }
 window.requestAnimationFrame(gameLoop)
