@@ -7,4 +7,4 @@ With insights from: https://developer.mozilla.org/en-US/docs/Web/API/window/requ
 > in a frame, otherwise the animation will run faster on high refresh rate
 > screens. Check the example below for a way to do this. 
 
-### Controls: `w` `a` `s` `d`
+### Controls: `w` `a` `s` `d`,`arrow keys`
