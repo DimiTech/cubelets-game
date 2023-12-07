@@ -1,20 +1,7 @@
-// ----------------------------------------------------------------------------
-// Canvas
-// ----------------------------------------------------------------------------
+import { canvas, context } from './Canvas.js'
 
-const CONFIG = {
-  CANVAS_WIDTH  : 480,
-  CANVAS_HEIGHT : 320,
-  SCALE : 2,
-}
-const canvas = document.getElementById('canvas')
-
-canvas.width  = CONFIG.CANVAS_WIDTH
-canvas.height = CONFIG.CANVAS_HEIGHT
-canvas.style.width  = CONFIG.SCALE !== 1 ? (CONFIG.SCALE * CONFIG.CANVAS_WIDTH ) + 'px' : 'auto'
-canvas.style.height = CONFIG.SCALE !== 1 ? (CONFIG.SCALE * CONFIG.CANVAS_HEIGHT) + 'px' : 'auto'
-
-const context = canvas.getContext('2d')
+import { calculateFrameRate, drawFPS } from './FrameRate.js'
+import { setupEventListeners } from './Keyboard.js'
 
 // ----------------------------------------------------------------------------
 // Time
@@ -25,23 +12,22 @@ const TIME = { // Milliseconds
   frameElapsedTime: undefined,
 }
 
-
 // ----------------------------------------------------------------------------
 // Player
 // ----------------------------------------------------------------------------
 
 const player = {
-  x : 100,
-  y : 100,
-  width  : 10,
-  height : 10,
+  x: 100,
+  y: 100,
+  width: 10,
+  height: 10,
   moving: {
-    up    : false,
-    right : false,
-    down  : false,
-    left  : false,
+    up: false,
+    right: false,
+    down: false,
+    left: false,
   },
-  speed  : 0.1,
+  speed: 0.1,
 }
 
 player.update = function() {
@@ -61,14 +47,21 @@ player.update = function() {
 
 player.render = function() {
   context.beginPath();
-    context.rect(
-      this.x - (this.width  / 2),
-      this.y - (this.height / 2),
-      this.width,
-      this.height
-    );
+  context.rect(
+    this.x - (this.width / 2),
+    this.y - (this.height / 2),
+    this.width,
+    this.height
+  );
+  context.fillStyle = 'black';
   context.fill();
 }
+
+// ----------------------------------------------------------------------------
+// Event Listeners
+// ----------------------------------------------------------------------------
+
+setupEventListeners(player)
 
 // ----------------------------------------------------------------------------
 // Game Loop
@@ -81,7 +74,7 @@ function update() {
 function render() {
   context.clearRect(0, 0, canvas.width, canvas.height)
   player.render()
-  drawFPS(context)
+  drawFPS()
 }
 
 function gameLoopStep() {

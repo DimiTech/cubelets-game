@@ -1,6 +1,8 @@
-let lastFrameTime
+import CONFIG from './Config.js'
 
-const FPS_ARR = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+import { context } from './Canvas.js'
+
+const FPS_ARR = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 let FPS
 
 function calculateFrameRate(lastFrameTime, frameElapsedTime) {
@@ -13,9 +15,15 @@ function calculateFrameRate(lastFrameTime, frameElapsedTime) {
   }
 }
 
-function drawFPS(context) {
+function drawFPS() {
   context.beginPath()
-    context.font = '10px Monospace'
-    context.fillText(`FPS: ${FPS && FPS.toFixed(2) || 'unknown'}`, 10, CONFIG.CANVAS_HEIGHT - 10)
+  context.fillStyle = 'black'
+  context.font = '10px Monospace'
+  context.fillText(`FPS: ${FPS && FPS.toFixed(2) || 'unknown'}`, 10, CONFIG.CANVAS_HEIGHT - 10)
   context.stroke()
+}
+
+export {
+  calculateFrameRate,
+  drawFPS
 }
