@@ -11,19 +11,16 @@ function calculateFrameRate(lastFrameTime, frameElapsedTime) {
   } else {
     FPS_ARR.unshift(1000 / frameElapsedTime)
     FPS_ARR.pop()
-    FPS = FPS_ARR.reduce((sum, current) => sum += current, 0) / FPS_ARR.length
+    FPS = FPS_ARR.reduce((sum, current) => (sum += current), 0) / FPS_ARR.length
   }
 }
 
 function drawFPS() {
   context.beginPath()
-  context.fillStyle = 'black'
+  context.fillStyle = 'white'
   context.font = '10px Monospace'
-  context.fillText(`FPS: ${FPS && FPS.toFixed(2) || 'unknown'}`, 10, CONFIG.CANVAS_HEIGHT - 10)
+  context.fillText(`FPS: ${(FPS && FPS.toFixed(2)) || 'unknown'}`, 10, CONFIG.CANVAS_HEIGHT - 10)
   context.stroke()
 }
 
-export {
-  calculateFrameRate,
-  drawFPS
-}
+export { calculateFrameRate, drawFPS }
