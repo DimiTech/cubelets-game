@@ -1,6 +1,4 @@
-import CONFIG from './Config.js'
-
-import { context } from './Canvas.js'
+import { canvas, context } from './Canvas.js'
 
 const FPS_ARR = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 let FPS
@@ -19,7 +17,7 @@ function drawFPS() {
   context.beginPath()
   context.fillStyle = 'white'
   context.font = '10px Monospace'
-  context.fillText(`FPS: ${(FPS && FPS.toFixed(2)) || 'unknown'}`, 10, CONFIG.CANVAS_HEIGHT - 10)
+  context.fillText(`FPS: ${(FPS && FPS.toFixed(2)) || 'unknown'}`, 10, canvas.height - 10)
   context.stroke()
 }
 

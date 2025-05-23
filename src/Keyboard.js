@@ -13,6 +13,8 @@ const KEYBOARD_KEYS = {
   h: 72,
   j: 74,
   l: 76,
+
+  f: 70,
 }
 
 export function setupEventListeners(player) {
@@ -37,6 +39,9 @@ export function setupEventListeners(player) {
       case KEYBOARD_KEYS.right:
       case KEYBOARD_KEYS.l:
         player.moving.right = true
+        break
+      case KEYBOARD_KEYS.f:
+        activateFullscreen()
         break
       default:
         break
@@ -68,4 +73,14 @@ export function setupEventListeners(player) {
         break
     }
   })
+}
+
+function activateFullscreen() {
+  if (canvas.requestFullscreen) {
+    canvas.requestFullscreen()
+  } else if (canvas.webkitRequestFullscreen) {
+    canvas.webkitRequestFullscreen()
+  } else if (canvas.msRequestFullscreen) {
+    canvas.msRequestFullscreen()
+  }
 }
